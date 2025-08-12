@@ -17,6 +17,7 @@ from dataclasses import dataclass
 from typing import List, Tuple, Dict
 
 import numpy as np
+import json
 import pandas as pd
 import pydeck as pdk
 import streamlit as st
@@ -509,8 +510,9 @@ if uploaded is not None:
                     },
                 })
             fc = {"type": "FeatureCollection", "features": features}
-            json_str = pd.io.json.dumps(fc, indent=2)
+            json_str = json.dumps(fc, indent=2)
             st.download_button("Download GeoJSON", data=json_str, file_name="slots.geojson", mime="application/geo+json")
 
 else:
     st.info("Upload a CSV to begin.")
+
