@@ -1,6 +1,10 @@
-streamlit>=1.36
-pandas>=2.0
-numpy>=1.26
-pydeck>=0.8
+streamlit
+streamlit-authenticator
+gspread
+google-auth
+pytz
+pandas
+numpy
+pydeck
 shapely>=2.0
-pyproj>=3.6
+pyproj
