@@ -167,15 +167,20 @@ def generate_slot_rectangles(
 # Streamlit App
 # ------------------------
 
-st.set_page_config(page_title="Path Slotting Map", layout="wide")
-st.title("Path Slotting Map (Phase 1)")
+st.set_page_config(page_title="Segment App", layout="wide")
+st.title("Route Segment Coverage: upload a drive-test CSV, segment the route, and grade coverage per segment and overall.
+")
 
 st.markdown(
     """
 This tool:
-1. Lets you upload a CSV and **map columns** to: Lat, Long, Time, Operator, Signal, BTS ID.
-2. **Sorts** by Time, plots samples on a map, and **computes total distance** along the path.
-3. Performs **slotting**: given a **Slot Length (meters)**, it draws **rectangles (length = SL, width = user-selected — default 5 m)** that tile the path.
+		1) Upload a CSV and map columns to your fields (Lat, Long, Time, Operator, Signal, BTS ID). Flexible column names are supported.
+		2) Trace the route and distance. Order samples by Time or by Original row order, optionally filter unrealistic jumps, and compute total path distance.
+		3) Segment the route. Tile the path with rectangular Segments aligned to the route using your Segment Length (meters) and Width (meters, default 5 m).
+		4) Score coverage per Segment. Choose a good-signal threshold T (for example, -124 dBm). For each Segment, compute good, bad, and total samples and the Coverage percent, then color-grade segments from red to green. Sample points are shown in blue.
+		5) See overall Path Coverage. Set a Good Segment coverage threshold percent (for example, 90 percent) and get Path Coverage = number of Good Segments divided by Total Segments.
+		6) Full Coverage Map (optional). Label Segments as Good (at least one good sample), Bad (only bad samples), or Skip (no samples). Any run of 2 or more consecutive Skip Segments is treated as Bad. View Good, Bad, and Skipped counts and Total coverage = Good divided by (Total minus Skipped).
+		7) Export results. Download the per-Segment coverage CSV and the Segment polygons as GeoJSON for GIS or further analysis.
     """
 )
 
@@ -537,6 +542,7 @@ if uploaded is not None:
 
 else:
     st.info("Upload a CSV to begin.")
+
 
 
 
