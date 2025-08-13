@@ -390,14 +390,29 @@ if uploaded is not None:
         )
 
         st.caption("Legend: blue dots = samples; red→green rectangles = slots by coverage")
+		# --- Path Coverage (threshold on per-slot coverage %) ---
+		good_thresh = st.number_input(
+		    "Good slot coverage threshold (%)",
+		    min_value=0.0, max_value=100.0, value=90.0, step=1.0
+		)
+		
+		# Count slots whose coverage_pct meets the threshold (NaN counts as not good)
+		good_slots_pct = int(pd.to_numeric(stats_df["coverage_pct"], errors="coerce").ge(good_thresh).sum())
+		path_cov_pct = (good_slots_pct / n_rects * 100.0) if n_rects > 0 else float("nan")
+		colA, colB, colC, colD = st.columns(4)
+		with colA:
+		    st.metric("Total distance", f"{total_dist_m/1000:.3f} km")
+		with colB:
+		    st.metric("Samples", f"{len(df)}")
+		with colC:
+		    st.metric("Slots (rectangles)", f"{n_rects}")
+		with colD:
+		    st.metric(
+		        "Path coverage",
+		        f"{path_cov_pct:.2f} %",
+		        help=f"Good slots (≥ {good_thresh:.0f}%) / total slots"
+		    )
 
-        colA, colB, colC = st.columns(3)
-        with colA:
-            st.metric("Total distance", f"{total_dist_m/1000:.3f} km")
-        with colB:
-            st.metric("Samples", f"{len(df)}")
-        with colC:
-            st.metric("Slots (rectangles)", f"{n_rects}")
 
         # Optional: Full Coverage Map (slot-level good/bad/skip view)
         full_cov = st.checkbox("Full Coverage Map", value=False)
@@ -515,4 +530,5 @@ if uploaded is not None:
 
 else:
     st.info("Upload a CSV to begin.")
+
 
