@@ -168,8 +168,7 @@ def generate_slot_rectangles(
 # ------------------------
 
 st.set_page_config(page_title="Segment App", layout="wide")
-st.title("Route Segment Coverage: upload a drive-test CSV, segment the route, and grade coverage per segment and overall.
-")
+st.title("Route Segment Coverage: upload a drive-test CSV, segment the route, and grade coverage per segment and overall.")
 
 st.markdown(
     """
@@ -542,6 +541,7 @@ if uploaded is not None:
 
 else:
     st.info("Upload a CSV to begin.")
+
 
 
 
